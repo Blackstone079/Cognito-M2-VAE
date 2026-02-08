@@ -1,7 +1,3 @@
-# data artifacts
-data/interim/
-data/processed/
-results/
 
 # python
 __pycache__/
