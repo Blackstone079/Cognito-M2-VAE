@@ -1,0 +1,14 @@
+# data artifacts
+data/interim/
+data/processed/
+results/
+
+# python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+.env
+.ipynb_checkpoints/
