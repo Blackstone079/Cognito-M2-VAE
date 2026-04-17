@@ -1,0 +1,97 @@
+db:
+  path: data/raw/drugs.db
+
+split:
+  seed: 0
+  frac_train: 0.7
+  frac_val: 0.15
+  min_val_labeled_per_task: 100
+  min_test_labeled_per_task: 100
+  min_val_pos_per_task: 25
+  min_test_pos_per_task: 25
+  min_val_neg_per_task: 25
+  min_test_neg_per_task: 25
+  n_restarts: 12
+  refine_passes: 1
+  size_weight: 2.0
+  labeled_weight: 6.0
+  class_weight: 8.0
+  prevalence_weight: 2.0
+  hard_min_weight: 50.0
+  overflow_weight: 20.0
+  scaffold_weight: 5.0
+  scaffold_min_weight: 20.0
+  max_eval_frac_over_target: 1.10
+  min_val_labeled_scaffolds_per_task: 12
+  min_test_labeled_scaffolds_per_task: 12
+  large_scaffold_frac_of_eval_total: 0.50
+  large_task_frac_of_eval_target: 0.50
+
+featurizer:
+  fp_bits: 2048
+  fp_radius: 2
+  feature_id: m2_v8_3head_ifm_seed0
+
+tasks:
+  protox_toxclass: false
+  respiratory_toxicity: true
+  ames_mutagenic: true
+  dili_classification: true
+
+training:
+  seed: 0
+  device: cuda
+  batch_size: 256
+  epochs: 60
+  lr: 0.001
+  weight_decay: 0.0001
+  beta_kl: 0.2
+  pretrain_supervised_epochs: 10
+  kl_warmup_epochs: 15
+  gen_warmup_epochs: 30
+  lambda_recon: 1.0
+  gen_weight: 0.5
+  normalize_recon: true
+  alpha_protox: 0.0
+  alpha_resp: 10.0
+  alpha_ames: 10.0
+  alpha_dili: 12.0
+  alpha_binary_default: 8.0
+  score_weight_resp: 1.0
+  score_weight_ames: 1.0
+  score_weight_dili: 0.5
+  pos_weight_mode: balanced
+  threshold_metric: bal_acc
+  free_bits_per_dim: 0.02
+  grad_clip: 5.0
+  patience: 15
+  batch_mix:
+    enabled: true
+    n_per_task:
+      resp: 2
+      ames: 2
+      dili: 1
+
+logging:
+  save_train_predictions: true
+  save_val_predictions: true
+  save_test_predictions: true
+  predictions_labeled_only: true
+  include_prediction_latents: false
+  save_probability_arrays: true
+  save_prediction_summary: true
+  save_latent_summary: true
+
+model:
+  z_dim: 64
+  clf_hidden: [512, 256]
+  enc_hidden: [512, 256]
+  dec_hidden: [512, 256]
+  dropout: 0.1
+  ifm_num_frequencies: 0
+  ifm_learnable: true
+  ifm_init_std: 6.0
+  ifm_include_raw: true
+
+run:
+  prefix: m2_3head_ifm_v8_fix1
