@@ -1,0 +1,30 @@
+__pycache__/
+*.py[cod]
+*.so
+.ipynb_checkpoints/
+.DS_Store
+Thumbs.db
+
+# Outputs / results
+results/
+Results/
+*.pt
+*.pth
+*.ckpt
+*.npy
+*.npz
+*.csv
+*.jsonl
+*.log
+*.out
+*.err
+
+# Data / caches
+cache/
+.caches/
+data/
+memmap/
+*.sqlite
+*.db
+*.h5
+*.hdf5
