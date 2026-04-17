@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -N cognito_split_stream
+#PBS -l select=1:ncpus=32:mem=128gb
+#PBS -l walltime=24:00:00
+#PBS -j oe
+
+cd "$PBS_O_WORKDIR"
+
+module purge
+module load miniforge/3
+
+eval "$(~/miniforge3/bin/conda shell.bash hook)"
+conda activate cognito
+
+export OMP_NUM_THREADS=${PBS_NCPUS:-1}
+python pipelines/legacy_single_target/split.py --config pipelines/legacy_single_target/config.yaml
