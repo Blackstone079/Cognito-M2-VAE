@@ -1,0 +1,10 @@
+#!/bin/bash
+#PBS -N cognito_mt_sup
+#PBS -q cx
+#PBS -l select=1:ncpus=16:ngpus=1:mem=64gb
+#PBS -l walltime=02:00:00
+#PBS -j oe
+cd "$PBS_O_WORKDIR"
+eval "$(~/miniforge3/bin/conda shell.bash hook)"
+conda activate cognito
+python pipelines/m2/train_supervised.py --config pipelines/m2/config_gpu.yaml
