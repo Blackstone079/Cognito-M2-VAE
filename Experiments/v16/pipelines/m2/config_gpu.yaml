@@ -1,0 +1,134 @@
+db:
+  path: data/raw/drugs.db
+split:
+  seed: 0
+  frac_train: 0.7
+  frac_val: 0.15
+  min_val_labeled_per_task: 100
+  min_test_labeled_per_task: 100
+  min_val_pos_per_task: 25
+  min_test_pos_per_task: 25
+  min_val_neg_per_task: 25
+  min_test_neg_per_task: 25
+  n_restarts: 12
+  refine_passes: 1
+  size_weight: 2.0
+  labeled_weight: 6.0
+  class_weight: 8.0
+  prevalence_weight: 2.0
+  hard_min_weight: 50.0
+  overflow_weight: 20.0
+  scaffold_weight: 5.0
+  scaffold_min_weight: 20.0
+  max_eval_frac_over_target: 1.1
+  min_val_labeled_scaffolds_per_task: 12
+  min_test_labeled_scaffolds_per_task: 12
+  large_scaffold_frac_of_eval_total: 0.5
+  large_task_frac_of_eval_target: 0.5
+featurizer:
+  fp_bits: 2048
+  fp_radius: 2
+  fp_use_counts: true
+  fp_count_simulation: false
+  fp_include_chirality: true
+  fp_count_transform: log1p
+  desc_panel: tox24
+  feature_id: m2_v13_truecountchirlog_tox24_seed0
+tasks:
+  protox_toxclass: false
+  respiratory_toxicity: true
+  ames_mutagenic: true
+  dili_classification: true
+training:
+  seed: 0
+  device: cuda
+  batch_size: 256
+  epochs: 100
+  lr: 0.001
+  weight_decay: 0.0001
+  beta_kl: 0.1
+  pretrain_supervised_epochs: 0
+  pretrain_supervised_epochs_min: 4
+  pretrain_supervised_epochs_max: 8
+  pretrain_transition_patience: 2
+  kl_warmup_epochs: 40
+  gen_warmup_epochs: 60
+  joint_unlabeled_weight: 0.15
+  joint_steps_mode: labeled
+  joint_unlabeled_batches_per_step: 12
+  regime: joint
+  train_label_fraction: 1.0
+  train_label_mask_seed: 0
+  train_label_fraction_by_task:
+    resp: 1.0
+    ames: 1.0
+    dili: 1.0
+  min_joint_epochs_before_early_stop: 0
+  min_joint_unlabeled_passes_before_early_stop: 1.0
+  beta_schedule: cyclical
+  beta_cycle_length: 8
+  beta_cycle_ramp_ratio: 0.5
+  lagging_inference_steps: 3
+  lagging_inference_joint_epochs: 8
+  sanity_guard_epoch: 2
+  sanity_abort_on_constant_preds: true
+  lambda_recon: 1.0
+  gen_weight: 0.25
+  normalize_recon: true
+  alpha_protox: 0.0
+  alpha_resp: 12.0
+  alpha_ames: 12.0
+  alpha_dili: 16.0
+  alpha_binary_default: 8.0
+  score_weight_resp: 1.0
+  score_weight_ames: 1.0
+  score_weight_dili: 0.5
+  pos_weight_mode: balanced
+  threshold_metric: bal_acc
+  free_bits_per_dim: 0.02
+  grad_clip: 5.0
+  patience: 20
+  batch_mix:
+    enabled: true
+    n_per_task:
+      resp: 2
+      ames: 2
+      dili: 1
+logging:
+  save_train_predictions: false
+  save_val_predictions: true
+  save_test_predictions: true
+  predictions_labeled_only: true
+  include_prediction_latents: false
+  save_probability_arrays: false
+  save_prediction_summary: true
+  save_latent_summary: true
+  save_gradient_probes: true
+  save_branch_ablations: false
+  save_representation_probes: false
+  save_capacity_diagnostics: false
+  save_train_metrics: false
+  save_train_latent_summary: false
+model:
+  z_dim: 64
+  clf_hidden:
+  - 512
+  - 256
+  enc_hidden:
+  - 512
+  - 256
+  dec_hidden:
+  - 512
+  - 256
+  dropout: 0.1
+  ifm_num_frequencies: 0
+  ifm_learnable: false
+  ifm_init_std: 6.0
+  ifm_include_raw: false
+  ifm_apply_to_encoder: false
+  fp_recon_distribution: gaussian
+  classifier_fp_view: binary_presence
+  classifier_use_descriptor_branch: true
+run:
+  prefix: m2_3head_v16_dualview_lagphi_cyc
+  parent_run_id: 2026-04-11__16-40-37__m2_3head_v15_dualview_noifm__m2_v13_truecountchirlog_tox24_seed0
